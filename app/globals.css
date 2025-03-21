@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 8%;
+    --foreground: 39 25% 88%;
+
+    --card: 34 25% 11%;
+    --card-foreground: 39 25% 88%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 39 25% 88%;
+
+    --primary: 43 54% 20%;
+    --primary-foreground: 39 25% 88%;
+
+    --secondary: 34 25% 11%;
+    --secondary-foreground: 39 25% 88%;
+
+    --muted: 34 25% 11%;
+    --muted-foreground: 39 25% 60%;
+
+    --accent: 43 54% 20%;
+    --accent-foreground: 39 25% 88%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 39 25% 88%;
+
+    --border: 43 54% 20%;
+    --input: 34 25% 11%;
+    --ring: 43 54% 20%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 39 25% 88%;
+
+    --card: 34 25% 11%;
+    --card-foreground: 39 25% 88%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 39 25% 88%;
+
+    --primary: 43 54% 20%;
+    --primary-foreground: 39 25% 88%;
+
+    --secondary: 34 25% 11%;
+    --secondary-foreground: 39 25% 88%;
+
+    --muted: 34 25% 11%;
+    --muted-foreground: 39 25% 60%;
+
+    --accent: 43 54% 20%;
+    --accent-foreground: 39 25% 88%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 39 25% 88%;
+
+    --border: 43 54% 20%;
+    --input: 34 25% 11%;
+    --ring: 43 54% 20%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@font-face {
+  font-family: "NinjaNaruto";
+  src: url("/fonts/ninja-naruto.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-ninja {
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.5px;
+}
+

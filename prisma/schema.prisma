@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  discordId     String    @unique
+  username      String
+  discriminator String?
+  email         String?   @unique
+  avatar        String?
+  roles         Role[]
+  mcUuid        String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  applications  Application[]
+  skins         Skin[]
+  comments      Comment[]
+}
+
+model Role {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Village {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  capacity    Int
+  clans       Clan[]
+  applications Application[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Clan {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  capacity    Int
+  villageId   String
+  village     Village  @relation(fields: [villageId], references: [id])
+  applications Application[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([name, villageId])
+}
+
+model Application {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  villageId   String
+  village     Village  @relation(fields: [villageId], references: [id])
+  clanId      String?
+  clan        Clan?    @relation(fields: [clanId], references: [id])
+  status      ApplicationStatus @default(PENDING)
+  skinId      String?
+  skin        Skin?    @relation(fields: [skinId], references: [id])
+  biography   String?
+  comments    Comment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cooldownUntil DateTime?
+}
+
+model Comment {
+  id            String   @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+  content       String
+  authorId      String?
+  author        User?    @relation(fields: [authorId], references: [id])
+  sentToDiscord Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Skin {
+  id          String   @id @default(cuid())
+  name        String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  data        Json
+  imageUrl    String?
+  isActive    Boolean  @default(false)
+  applications Application[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Setting {
+  key         String   @id
+  value       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ApplicationStatus {
+  PENDING
+  INTERVIEW
+  ACCEPTED
+  REJECTED
+  ARCHIVED
+}
+
